@@ -45,30 +45,27 @@ class _HomeScreenState extends State<HomeScreen> {
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
                             return InkWell(
-                              onTap: () {
-                                dbhelper!.update(NoteModel(
-                                    id: snapshot.data![index].id,
-                                    titleName: 'Fiest',
-                                    body: 'dskajkdsakj'));
-                              },
-                              child: Dismissible(
-                                background: Container(
-                                  child: Icon(Icons.delete_forever),
-                                  color: Colors.red,
-                                ),
-                                onDismissed: (DismissDirection directon) {
-                                  dbhelper!.delete(snapshot.data![index].id!);
-                                  setState(() {
-                                    notesList = dbhelper!.getNoteList();
-                                    snapshot.data!
-                                        .remove(snapshot.data![index].id);
-                                  });
+                                onTap: () {
+                                  dbhelper!.update(NoteModel(
+                                      id: snapshot.data![index].id,
+                                      titleName: 'Fiest',
+                                      body: 'dskajkdsakj'));
                                 },
-                                key: ValueKey<int?>(snapshot.data![index].id),
-                                direction: DismissDirection.endToStart,
                                 child: Card(
                                   color: getRandomColor(),
                                   child: ListTile(
+                                    trailing: InkWell(
+                                        onTap: () {
+                                          dbhelper!.delete(
+                                              snapshot.data![index].id!);
+                                          setState(() {
+                                            notesList = dbhelper!.getNoteList();
+                                            snapshot.data!.remove(
+                                                snapshot.data![index].id);
+                                          });
+                                        },
+                                        child: const Icon(
+                                            Icons.delete_forever_outlined)),
                                     contentPadding: EdgeInsets.all(14),
                                     title: Text(
                                       snapshot.data![index].titleName
@@ -80,12 +77,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     subtitle: Text(
                                         snapshot.data![index].body.toString()),
                                   ),
-                                ),
-                              ),
-                            );
+                                ));
                           });
                     } else {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     }
                   }),
             )
