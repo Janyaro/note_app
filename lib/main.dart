@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:note_app/Component/ReuseableBtn.dart';
-import 'package:note_app/Screens/create_note.dart';
 import 'package:note_app/Screens/homeScreen.dart';
+import 'package:note_app/Screens/updateData.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.blue,
           // brightness: Brightness.dark,
           appBarTheme: const AppBarTheme(color: Colors.blue)),
-      home: const HomeScreen(),
+      home: const UpdateScreen(),
     );
   }
 }
