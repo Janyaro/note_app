@@ -51,8 +51,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              const UpdateScreen()));
+                                          builder: (context) => UpdateScreen(
+                                                noteModel: NoteModel(
+                                                    id: snapshot
+                                                        .data![index].id,
+                                                    titleName: snapshot
+                                                        .data![index].titleName
+                                                        .toString(),
+                                                    body: snapshot
+                                                        .data![index].body
+                                                        .toString()),
+                                                onUpdate: () {
+                                                  setState(() {
+                                                    notesList =
+                                                        dbhelper!.getNoteList();
+                                                  });
+                                                },
+                                              )));
                                 },
                                 child: Card(
                                   color: getRandomColor(),
@@ -69,17 +84,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                             });
                                           },
                                           child: const Icon(
-                                              Icons.delete_forever_outlined)),
+                                            Icons.delete_forever_outlined,
+                                            color: Colors.black,
+                                          )),
                                       contentPadding: EdgeInsets.all(14),
                                       title: Text(
                                         snapshot.data![index].titleName
                                             .toString(),
                                         style: const TextStyle(
                                             fontSize: 20,
-                                            fontWeight: FontWeight.bold),
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
                                       ),
-                                      subtitle: Text(snapshot.data![index].body
-                                          .toString())),
+                                      subtitle: Text(
+                                        snapshot.data![index].body.toString(),
+                                        style: const TextStyle(
+                                            color: Colors.black, fontSize: 16),
+                                      )),
                                 ));
                           });
                     } else {

@@ -1,13 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:note_app/Component/ReuseableBtn.dart';
 import 'package:note_app/Component/textField.dart';
 import 'package:note_app/dbHelper.dart';
 import 'package:note_app/models/note_model.dart';
 
 class UpdateScreen extends StatefulWidget {
-  const UpdateScreen({super.key});
+  final NoteModel noteModel;
+  final Function() onUpdate;
+
+  const UpdateScreen(
+      {Key? key, required this.noteModel, required this.onUpdate})
+      : super(key: key);
 
   @override
   State<UpdateScreen> createState() => _UpdateScreenState();
@@ -17,11 +20,17 @@ class _UpdateScreenState extends State<UpdateScreen> {
   late DBHelper dbHelper;
   TextEditingController titleController = TextEditingController();
   TextEditingController desController = TextEditingController();
+
   @override
-  initState() {
+  void initState() {
+    super.initState();
     dbHelper = DBHelper();
+    // Initialize controllers with the values of the note model
+    titleController.text = widget.noteModel.titleName;
+    desController.text = widget.noteModel.body;
   }
 
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -53,8 +62,24 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   height: MediaQuery.of(context).size.width * 0.04,
                 ),
                 GestureDetector(
-                    onTap: () {},
-                    child: const ReUseAbleBtn(btnTitle: 'Update data'))
+                  onTap: () {
+                    dbHelper
+                        .update(NoteModel(
+                      id: widget.noteModel.id,
+                      titleName: titleController.text,
+                      body: desController.text,
+                    ))
+                        .then((_) {
+                      print('Data Update ');
+
+                      // Call the onUpdate callback to notify the HomeScreen that the note has been updated
+                      widget.onUpdate();
+
+                      Navigator.pop(context);
+                    });
+                  },
+                  child: const ReUseAbleBtn(btnTitle: 'Update data'),
+                ),
               ],
             ),
           ),

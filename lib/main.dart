@@ -14,9 +14,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
           primaryColor: Colors.blue,
-          // brightness: Brightness.dark,
+          brightness: Brightness.dark,
           appBarTheme: const AppBarTheme(color: Colors.blue)),
-      home: const UpdateScreen(),
+      home: const HomeScreen(),
     );
   }
 }
