@@ -26,97 +26,106 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   loadData() async {
-    notesList = dbhelper!.getNoteList();
+    notesList = dbhelper!.getNoteList;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Note App'),
-          centerTitle: true,
-        ),
-        body: Column(
-          children: [
-            Expanded(
-              child: FutureBuilder(
-                  future: notesList,
-                  builder: (context, AsyncSnapshot<List<NoteModel>> snapshot) {
-                    if (snapshot.hasData) {
-                      return ListView.builder(
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => UpdateScreen(
-                                                noteModel: NoteModel(
-                                                    id: snapshot
-                                                        .data![index].id,
-                                                    titleName: snapshot
-                                                        .data![index].titleName
-                                                        .toString(),
-                                                    body: snapshot
-                                                        .data![index].body
-                                                        .toString()),
-                                                onUpdate: () {
-                                                  setState(() {
-                                                    notesList =
-                                                        dbhelper!.getNoteList();
-                                                  });
-                                                },
-                                              )));
-                                },
-                                child: Card(
-                                  color: getRandomColor(),
-                                  child: ListTile(
-                                      trailing: InkWell(
-                                          onTap: () {
-                                            dbhelper!.delete(
-                                                snapshot.data![index].id!);
-                                            setState(() {
-                                              notesList =
-                                                  dbhelper!.getNoteList();
-                                              snapshot.data!.remove(
-                                                  snapshot.data![index].id);
-                                            });
-                                          },
-                                          child: const Icon(
-                                            Icons.delete_forever_outlined,
-                                            color: Colors.black,
-                                          )),
-                                      contentPadding: EdgeInsets.all(14),
-                                      title: Text(
-                                        snapshot.data![index].titleName
-                                            .toString(),
-                                        style: const TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black),
-                                      ),
-                                      subtitle: Text(
-                                        snapshot.data![index].body.toString(),
-                                        style: const TextStyle(
-                                            color: Colors.black, fontSize: 16),
-                                      )),
-                                ));
-                          });
-                    } else {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                  }),
-            )
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => CreateNote()));
-          },
-          child: const Icon(Icons.add),
-        ));
+    return SafeArea(
+      child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Note App'),
+            centerTitle: true,
+          ),
+          body: Column(
+            children: [
+              Expanded(
+                child: FutureBuilder(
+                    future: notesList,
+                    builder:
+                        (context, AsyncSnapshot<List<NoteModel>> snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => UpdateScreen(
+                                                  noteModel: NoteModel(
+                                                      id: snapshot
+                                                          .data![index].id,
+                                                      titleName: snapshot
+                                                          .data![index]
+                                                          .titleName
+                                                          .toString(),
+                                                      body: snapshot
+                                                          .data![index].body
+                                                          .toString()),
+                                                  onUpdate: () {
+                                                    setState(() {
+                                                      notesList =
+                                                          dbhelper!.getNoteList;
+                                                    });
+                                                  },
+                                                )));
+                                  },
+                                  child: Card(
+                                    color: getRandomColor(),
+                                    child: ListTile(
+                                        trailing: InkWell(
+                                            onTap: () {
+                                              dbhelper!.delete(
+                                                  snapshot.data![index].id!);
+                                              setState(() {
+                                                notesList =
+                                                    dbhelper!.getNoteList;
+                                                snapshot.data!.remove(
+                                                    snapshot.data![index].id);
+                                              });
+                                            },
+                                            child: const Icon(
+                                              Icons.delete_forever_outlined,
+                                              color: Colors.black,
+                                            )),
+                                        contentPadding: EdgeInsets.all(14),
+                                        title: Text(
+                                          snapshot.data![index].titleName
+                                              .toString(),
+                                          style: const TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black),
+                                        ),
+                                        subtitle: Text(
+                                          snapshot.data![index].body.toString(),
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16),
+                                        )),
+                                  ));
+                            });
+                      } else {
+                        return const Center(
+                            child: Text(
+                          'NoteList Empty',
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ));
+                      }
+                    }),
+              )
+            ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => CreateNote()));
+            },
+            child: const Icon(Icons.add),
+          )),
+    );
   }
 
   getRandomColor() {

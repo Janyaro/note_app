@@ -40,7 +40,7 @@ class _CreateNoteState extends State<CreateNote> {
                 ),
                 const Text(
                   'Create Notes',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
                   height: 20,
@@ -78,6 +78,22 @@ class _CreateNoteState extends State<CreateNote> {
                         });
                         setState(() {});
                       } else {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Fields are Empty '),
+                                content: const Text(
+                                    'Please Enter the data in the field'),
+                                actions: [
+                                  BackButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  )
+                                ],
+                              );
+                            });
                         print('Data is not saved');
                       }
                     },

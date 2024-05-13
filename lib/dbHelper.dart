@@ -33,7 +33,7 @@ class DBHelper {
     return noteModel;
   }
 
-  Future<List<NoteModel>> getNoteList() async {
+  Future<List<NoteModel>> get getNoteList async {
     var clientDB = await db;
     final List<Map<String, Object?>> getquery = await clientDB!.query('notes');
     return getquery.map((e) => NoteModel.fromMap(e)).toList();

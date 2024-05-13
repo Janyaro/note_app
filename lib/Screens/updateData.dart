@@ -42,7 +42,14 @@ class _UpdateScreenState extends State<UpdateScreen> {
             child: Column(
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.1,
+                  height: MediaQuery.of(context).size.height * 0.05,
+                ),
+                const Text(
+                  'Update Data ',
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.04,
                 ),
                 ReUseAbleTextField(
                   titleName: 'Title',
@@ -70,9 +77,17 @@ class _UpdateScreenState extends State<UpdateScreen> {
                       body: desController.text,
                     ))
                         .then((_) {
-                      print('Data Update ');
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const AlertDialog(
+                              title: Text('Congraculation '),
+                              content: Text(
+                                  'data Successfully update in the dataBase'),
+                              actions: [BackButton()],
+                            );
+                          });
 
-                      // Call the onUpdate callback to notify the HomeScreen that the note has been updated
                       widget.onUpdate();
 
                       Navigator.pop(context);

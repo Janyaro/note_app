@@ -10,7 +10,7 @@ class ReUseAbleBtn extends StatelessWidget {
       width: double.infinity,
       height: 50,
       decoration: BoxDecoration(
-        color: Colors.orange,
+        color: Color.fromARGB(255, 154, 122, 75),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Center(
